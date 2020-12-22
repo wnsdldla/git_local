@@ -1,0 +1,76 @@
+package com.animalConnect.controller;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.ibatis.annotations.One;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.animalConnect.domain.ProVO;
+import com.animalConnect.domain.UserVO;
+import com.animalConnect.service.NoticeService;
+import com.animalConnect.service.ProService;
+import com.animalConnect.service.UserService;
+
+import lombok.AllArgsConstructor;
+import lombok.extern.log4j.Log4j;
+
+@Log4j
+@Controller
+@AllArgsConstructor
+@RequestMapping("/animalConnect/member/*")
+public class MemberController {
+
+	
+	private UserService uService;
+	private ProService pService;
+	
+	//회원가입 선택 페이지
+	@GetMapping("/checkJoin")
+	public void checkJoin() {}
+	
+	//일반 사용자 회원가입 페이지 이동
+	@GetMapping("/join")
+	public void join() {}
+	
+	//일반 사용자 회원가입
+	@PostMapping("/join")
+	public String join(UserVO user,RedirectAttributes rttr) {
+		log.info("member.join()....."+ user);
+		uService.join(user);
+		return "redirect:/animalConnect/main/main";
+	}
+	
+	//전문가 회원가입 페이지 이동
+	@GetMapping("/proJoin")
+	public void proJoin() {}
+	
+	//전문가 회원가입
+	@PostMapping("/proJoin")
+	public String proJoin(ProVO pro,
+			RedirectAttributes rttr) {
+		log.info("member.proJoin()....."+pro);
+		List<String> maps = new ArrayList<String>();
+		if(newText1!=null) {
+			maps.add(newText1);
+		}
+		if(newText2!=null) {
+			maps.add(newText2);
+		}
+		if(newText3!=null) {
+			maps.add(newText3);
+		}
+		if(newText4!=null) {
+			maps.add(newText4);
+		}
+		pService.proJoin(pro, maps);
+		
+		return "redirect:/animalConnect/main/main";
+	}
+	
+}

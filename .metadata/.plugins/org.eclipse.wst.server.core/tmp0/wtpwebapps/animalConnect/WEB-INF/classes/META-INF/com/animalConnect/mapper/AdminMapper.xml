@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.animalConnect.mapper.AdminMapper">
+
+	<select id="AdminLogin"  resultType="string">
+		SELECT ADMINEMAIL FROM ADMIN WHERE ADMINEMAIL = #{id} AND ADMINPW = #{pw}
+	</select>
+	
+	<select id="AdminCheckNum" resultType="_int">
+		SELECT CHECKNUM FROM ADMIN WHERE ADMINEMAIL = #{adminEmail}
+	</select>
+
+	<select id="AdminCheckId" resultType="_int">
+		SELECT COUNT(*) FROM ADMIN WHERE ADMINEMAIL = #{adminEmail}
+	</select>
+</mapper>

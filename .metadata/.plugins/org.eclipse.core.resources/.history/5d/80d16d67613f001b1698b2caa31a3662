@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.animalConnect.mapper.ProMapper">
+	<!-- 
+	<select id="profileListAll" resultType="ProfileVO">
+		SELECT * from 
+		(SELECT ROWNUM R, D.* FROM
+				(SELECT * FROM PRO B WHERE PRO_CHECK='YES' ORDER BY PRO_NAME DESC) D) B
+					WHERE B.R BETWEEN ${startRow} AND ${endRow}	
+	</select>
+	 -->
+	 <select id="proList" resultType="com.animalConnect.domain.ProVO"> 
+	 <![CDATA[
+		SELECT NOTICENUM,NOTICETITLE, NOTICECONTENTS, NOTICEDATE, ADMINEMAIL, READCOUNT FROM 
+			(SELECT /*+ INDEX_DESC(NOTICE NOTICE_PK) */ ROWNUM RN,NOTICENUM,NOTICETITLE, NOTICECONTENTS, NOTICEDATE, ADMINEMAIL, READCOUNT	
+			 FROM NOTICE
+			 WHERE ROWNUM <= #{pageNum} * #{amount})
+		WHERE RN > (#{pageNum} - 1) * #{amount}
+	]]>
+	 </select>
+	 
+	<select id="totalCnt" resultType="_int">
+		SELECT COUNT(*) FROM PRO
+	</select>
+	<select id="checkProId" resultType="_int">
+		SELECT COUNT(*) FROM PRO WHERE PROEMAIL = #{id}
+	</select>
+	
+	<insert id="proJoin">
+		INSERT INTO pro(PRONAME,PROEMAIL,PROPW,PROHP,NICNAME,PROCHECK) 
+		VALUES(#{proName},#{proEmail},#{proPw}, #{proHp},#{nicName},'NO')
+	</insert>
+	<insert id="proMapRegister">
+		INSERT INTO "MAP" 
+		VALUES(#{proEmail},#{proMaps})
+	</insert>
+	<select id="proLogin" resultType="string">
+		SELECT NICNAME FROM PRO WHERE PROEMAIL = #{id} AND PROPW = #{pw}
+	</select>
+	
+	<!-- 
+	<select id="profileCarrer" resultType="CareerVO">
+		SELECT * FROM CAREER WHERE pro_email = #{pro_email}
+	</select>
+	
+	<select id="fileList" resultType="FileVO">
+		SELECT * FROM "FILE" WHERE pro_email = #{pro_email}
+	</select>
+	
+	<select id="profileDetail" parameterType="string" resultType="ProfileVO">
+		SELECT * FROM PRO WHERE pro_email = #{pro_email}
+	</select>
+	
+	<select id="profileDetail2" parameterType="string" resultType="ProfileVO">
+		SELECT * FROM PRO WHERE pro_email IN (SELECT PRO_EMAIL FROM "MAP" WHERE PRO_MAPS = #{maps} ) AND PRO_CHECK = 'YES'
+	</select>
+	
+	 
+	<select id="profileModify" parameterType="string">
+		UPDATE PRO SET NICNAME= #{nicName} , PROHP = #{proHp} , PROADDRESS = #{proAddress} WHERE PROEMAIL = #{proEmail}
+	</select>
+	
+	<select id="searchProfile" parameterType="String" resultType="ProfileVO">
+		SELECT * FROM PRO WHERE NICNAME = #{nicName}
+	</select>
+	
+	<select id="modifyImg" parameterType="String">
+		UPDATE IMG_FILE SET RPOIMGFILE = ${proImg} WHERE PROEMAIL = ${proEmail}
+	</select>
+	
+	<select id="getProAddress" parameterType="string" resultType="string">
+	SELECT PRO_MAPS FROM "MAP" WHERE PRO_EMAIL IN (SELECT PRO_EMAIL FROM PRO WHERE NICNAME = #{nicname})
+	</select>
+	-->
+</mapper>

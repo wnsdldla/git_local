@@ -1,0 +1,23 @@
+package com.animalConnect.mapper;
+
+import com.animalConnect.domain.AdminVO;
+import com.animalConnect.domain.ProVO;
+
+public interface ProMapper {
+	
+	//전문가 로그인
+
+	//전문가 회원가입
+	public void proJoin(ProVO pro);
+	
+	
+	//전문가 아이디 확인
+	
+	//전문가 닉네임 확인
+	
+	//----------------------< 지도 >----------
+	//지도 저장
+	
+	
+	
+}

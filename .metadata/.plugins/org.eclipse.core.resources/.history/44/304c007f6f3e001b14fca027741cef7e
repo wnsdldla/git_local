@@ -1,0 +1,13 @@
+package com.animalConnect.service;
+
+import com.animalConnect.domain.UserVO;
+
+public class UserServicesImpl implements UserService {
+
+	@Override
+	public void join(UserVO user) {
+		// TODO Auto-generated method stub
+
+	}
+
+}

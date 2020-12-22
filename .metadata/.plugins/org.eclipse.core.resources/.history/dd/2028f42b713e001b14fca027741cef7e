@@ -1,0 +1,20 @@
+package com.animalConnect.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.animalConnect.domain.UserVO;
+import com.animalConnect.mapper.UserMapper;
+
+import lombok.Setter;
+
+public class UserServicesImpl implements UserService {
+
+	@Setter(onMethod_=@Autowired)
+	private UserMapper uMapper;
+	
+	@Override
+	public void join(UserVO user) {
+		uMapper.userJoin(user);
+	}
+
+}

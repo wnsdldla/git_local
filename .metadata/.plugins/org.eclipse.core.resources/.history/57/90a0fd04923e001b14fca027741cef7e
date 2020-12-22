@@ -1,0 +1,15 @@
+package com.animalConnect.service;
+
+import java.util.List;
+
+import com.animalConnect.domain.ProVO;
+
+public class ProServiceImple implements ProService {
+
+	@Override
+	public void proJoin(ProVO pro, List<String> maps) {
+		// TODO Auto-generated method stub
+
+	}
+
+}

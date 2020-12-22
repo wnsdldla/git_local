@@ -1,0 +1,32 @@
+package com.animalConnect.service;
+
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
+import com.animalConnect.domain.MapVO;
+import com.animalConnect.domain.ProVO;
+import com.animalConnect.mapper.NoticeMapper;
+import com.animalConnect.mapper.ProMapper;
+
+import lombok.AllArgsConstructor;
+import lombok.extern.log4j.Log4j;
+
+@Service
+@AllArgsConstructor
+@Log4j
+public class ProServiceImple implements ProService {
+
+	private ProMapper pMapper;
+	
+	@Override
+	public void proJoin(ProVO pro) {
+		log.info("pro.proJoin()..... "+ pro);
+		pMapper.proJoin(pro);
+		MapVO map = new MapVO();
+		map.setProEmail(pro.getProEmail());
+		
+		
+	}
+
+}

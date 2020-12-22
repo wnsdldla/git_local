@@ -1,0 +1,12 @@
+package com.animalConnect.mapper;
+
+import com.animalConnect.domain.AdminVO;
+
+public interface ProMapper {
+	
+	//전문가 로그인
+	public String ProLogin(AdminVO admin);
+	
+	
+	
+}

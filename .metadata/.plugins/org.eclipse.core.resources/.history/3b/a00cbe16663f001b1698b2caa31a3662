@@ -1,0 +1,53 @@
+package com.animalConnect.service;
+
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
+import com.animalConnect.domain.MapVO;
+import com.animalConnect.domain.ProVO;
+import com.animalConnect.domain.ProfileCriteria;
+import com.animalConnect.mapper.NoticeMapper;
+import com.animalConnect.mapper.ProMapper;
+
+import lombok.AllArgsConstructor;
+import lombok.extern.log4j.Log4j;
+
+@Service
+@AllArgsConstructor
+@Log4j
+public class ProServiceImple implements ProService {
+
+	private ProMapper pMapper;
+	
+	@Override
+	public void proJoin(ProVO pro,String maps) {
+		log.info("pro.proJoin()..... "+ pro);
+		pMapper.proJoin(pro);
+		String [] map = maps.split(",");
+		MapVO mvo = new MapVO();
+		mvo.setProEmail(pro.getProEmail());
+		for(String item : map) {
+			mvo.setProMaps(item);
+			pMapper.proMapRegister(mvo);
+		}
+	}
+
+	@Override
+	public int checkProId(String id) {
+		return pMapper.checkProId(id);
+	}
+
+	@Override
+	public List<ProVO> proList(ProfileCriteria pCri) {
+		List<ProVO > proList = pMapper.proList(pCri);
+		String proMaps = "";
+		proList.forEach(pro -> {
+			
+			pMapper.proMapList(pro.getProEmail()).forEach(map -> {proMaps += map+",";});
+			pro.setProMaps(pro.getProEmail());
+			});
+		return proList;
+	}
+
+}

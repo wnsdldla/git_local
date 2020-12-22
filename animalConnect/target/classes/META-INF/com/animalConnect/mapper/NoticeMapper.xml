@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.animalConnect.mapper.NoticeMapper">
+	<select id="noticeList" resultType="com.animalConnect.domain.NoticeVO">
+	<![CDATA[
+		SELECT NOTICENUM,NOTICETITLE, NOTICECONTENTS, NOTICEDATE, ADMINEMAIL, READCOUNT FROM 
+			(SELECT /*+ INDEX_DESC(NOTICE NOTICE_PK) */ ROWNUM RN,NOTICENUM,NOTICETITLE, NOTICECONTENTS, NOTICEDATE, ADMINEMAIL, READCOUNT	
+			 FROM NOTICE
+			 WHERE ROWNUM <= #{pageNum} * #{amount})
+		WHERE RN > (#{pageNum} - 1) * #{amount}
+	]]>
+	</select>
+	<select id="noticeRead" resultType="com.animalConnect.domain.NoticeVO">
+		SELECT * FROM NOTICE WHERE NOTICENUM = #{noticeNum}
+	</select>
+	
+	<select id="noticeTotalCnt" resultType="_int">
+		SELECT COUNT(*) FROM NOTICE
+	</select>
+	
+	
+	<insert id="noticeRegister">
+		<selectKey keyProperty="noticeNum" order="BEFORE" resultType="long">
+			SELECT SEQ_NOTICE.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO NOTICE VALUES 
+		(#{noticeNum}, #{noticeTitle},#{noticeContents},SYSDATE,#{adminEmail},0)
+	</insert>
+	
+	<update id="noticeModify">
+		UPDATE NOTICE
+		SET NOTICECONTENTS = #{noticeContents} , NOTICEDATE=SYSDATE ,NOTICETITLE = #{noticeTitle}
+		WHERE NOTICENUM = #{noticeNum}
+	</update>
+	
+	<update id="noticeReadCount">
+		UPDATE NOTICE
+		SET READCOUNT = READCOUNT + 1
+		WHERE NOTICENUM = #{noticeNum}
+	</update>
+	
+	<delete id="noticeDelete" >
+		DELETE FROM NOTICE
+		WHERE NOTICENUM = #{noticeNum}
+	</delete>
+</mapper>
+
+

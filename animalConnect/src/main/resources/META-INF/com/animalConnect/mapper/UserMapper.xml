@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.animalConnect.mapper.UserMapper">
+	<select id="userList" resultType="com.animalConnect.domain.UserVO">
+		SELECT * FROM USERS
+	</select>
+	
+	<insert id="userJoin">
+		INSERT INTO USERS (USEREMAIL, USERPW,  USERHP) VALUES(#{userEmail},#{userPw},#{userHp})
+	</insert>
+	
+	<select id="userCheckId" resultType="_int">
+		SELECT COUNT(*) FROM USERS WHERE USEREMAIL = #{userEmail}
+	</select>
+	
+	<select id="userLogin" resultType="string">
+		SELECT USEREMAIL FROM USERS WHERE USEREMAIL = #{id} AND USERPW = #{pw}
+	</select>
+
+	<select id="userFind_pw" resultType="string">
+		SELECT USERPW FROM USERS WHERE USEREMAIL = #{userEmail}
+	</select>
+	
+	<update id="userUpdate_pw">
+		UPDATE USERS SET USERPW = #{userPw} WHERE USEREMAIL = #{userEmail}
+	</update>
+	
+	<select id="userCheck_num"  resultType="_int">
+		SELECT CHECKNUM FROM USERS WHERE USEREMAIL = #{userEmail}
+	</select>
+	
+	<select id="getUserDetail" resultType="com.animalConnect.domain.UserVO">
+		SELECT * FROM USERS WHERE USEREMAIL = #{userEmail}
+	</select>
+</mapper>
+
